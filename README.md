@@ -24,7 +24,7 @@ Before clicking on deploy to heroku just click on fork and star button just belo
   </a>
 </p>
 
-[![tamilbot logo](https://telegra.ph/file/2790938cacb9aa80d478c.jpg)](https://heroku.com/deploy?template=https://github.com/tamilbots/ub)
+[![tamilbot logo](https://telegra.ph/file/2790938cacb9aa80d478c.jpg)](https://heroku.com/deploy?template=https://github.com/jamelsingh/TamilUserBot.)
 
 ## Give your 💙 and support 
 
