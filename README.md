@@ -33,6 +33,8 @@ Before clicking on deploy to heroku just click on fork and star button just belo
 
 Herkoku
 
+[![Deploy To Heroku](https://www.herokucdn.com/deploy/button.svg)](https://dashboard.heroku.com/new?button-url=android-app%3A%2F%2Forg.telegram.plus%2F&template=https%3A%2F%2Fgithub.com%2Fjamelsingh%2FTamilUserBot)
+
 [![Deploy To Heroku](https://www.herokucdn.com/deploy/button.svg)](https://dashboard.heroku.com/new?button-url=https%3A%2F%2Fgithub.com%2Fimsaravanakrish%2Fnekopack&template=https%3A%2F%2Fgithub.com%2Fimsaravanakrish%2Fnekopack)
 
 Railway 
