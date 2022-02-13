@@ -10,9 +10,11 @@ from telethon.tl.functions.channels import GetAdminedPublicChannelsRequest
 async def mine(event):
     """ For .reserved command, get a list of your reserved usernames. """
     result = await bot(GetAdminedPublicChannelsRequest())
-    output_str = ""
-    for channel_obj in result.chats:
-        output_str += f"{channel_obj.title}\n@{channel_obj.username}\n\n"
+    output_str = "".join(
+        f"{channel_obj.title}\n@{channel_obj.username}\n\n"
+        for channel_obj in result.chats
+    )
+
     await event.edit(output_str)
 
   

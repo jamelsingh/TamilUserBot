@@ -7,6 +7,8 @@ import os
 from telethon.tl.types import ChatBannedRights
 
 
+
+
 class Config(object):
     LOGGER = True
 
@@ -63,7 +65,7 @@ class Config(object):
         "THUMB_IMAGE", "https://telegra.ph/file/2790938cacb9aa80d478c.jpg"
     )
     # specify NO_LOAD with plugin names for not loading in userbot
-    NO_LOAD = [x for x in os.environ.get("NO_LOAD", "").split()]
+    NO_LOAD = list(os.environ.get("NO_LOAD", "").split())
     # For custom alive pic
     ALIVE_PIC = os.environ.get("ALIVE_PIC", None)
     # for Custom pmpermit pic
@@ -99,6 +101,7 @@ class Config(object):
     TZ_NUMBER = int(os.environ.get("TZ_NUMBER", 1))
     # For updater plugin
     UPSTREAM_REPO_BRANCH = os.environ.get("UPSTREAM_REPO_BRANCH", "master")
+
 
 
 class Production(Config):

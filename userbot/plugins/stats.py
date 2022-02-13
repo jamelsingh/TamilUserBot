@@ -26,7 +26,7 @@ async def stats(event):
 @borg.on(admin_cmd(pattern="stats"))
 async def stats(
     event: NewMessage.Event,
-) -> None:  # pylint: disable = R0912, R0914, R0915
+) -> None:    # pylint: disable = R0912, R0914, R0915
     """Command to get stats about the account"""
     await event.edit("`Collecting stats, Wait man`")
     start_time = time.time()
@@ -43,35 +43,32 @@ async def stats(
     dialog: Dialog
     async for dialog in event.client.iter_dialogs():
         entity = dialog.entity
-        if isinstance(entity, Channel):
-            # participants_count = (await event.get_participants(dialog,
-            # limit=0)).total
-            if entity.broadcast:
-                broadcast_channels += 1
-                if entity.creator or entity.admin_rights:
-                    admin_in_broadcast_channels += 1
-                if entity.creator:
-                    creator_in_channels += 1
-            elif entity.megagroup:
-                groups += 1
-                # if participants_count > largest_group_member_count:
-                #     largest_group_member_count = participants_count
-                if entity.creator or entity.admin_rights:
-                    # if participants_count > largest_group_with_admin:
-                    #     largest_group_with_admin = participants_count
-                    admin_in_groups += 1
-                if entity.creator:
-                    creator_in_groups += 1
-        elif isinstance(entity, User):
-            private_chats += 1
-            if entity.bot:
-                bots += 1
-        elif isinstance(entity, Chat):
-            groups += 1
+        if isinstance(entity, Channel) and entity.broadcast:
+            broadcast_channels += 1
             if entity.creator or entity.admin_rights:
+                admin_in_broadcast_channels += 1
+            if entity.creator:
+                creator_in_channels += 1
+        elif (
+            isinstance(entity, Channel)
+            and entity.megagroup
+            or not isinstance(entity, Channel)
+            and not isinstance(entity, User)
+            and isinstance(entity, Chat)
+        ):
+            groups += 1
+            # if participants_count > largest_group_member_count:
+            #     largest_group_member_count = participants_count
+            if entity.creator or entity.admin_rights:
+                # if participants_count > largest_group_with_admin:
+                #     largest_group_with_admin = participants_count
                 admin_in_groups += 1
             if entity.creator:
                 creator_in_groups += 1
+        elif not isinstance(entity, Channel) and isinstance(entity, User):
+            private_chats += 1
+            if entity.bot:
+                bots += 1
         unread_mentions += dialog.unread_mentions_count
         unread += dialog.unread_count
     stop_time = time.time() - start_time
@@ -97,9 +94,7 @@ async def stats(
 
 
 def make_mention(user):
-    if user.username:
-        return f"@{user.username}"
-    return inline_mention(user)
+    return f"@{user.username}" if user.username else inline_mention(user)
 
 
 def inline_mention(user):

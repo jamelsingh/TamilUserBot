@@ -134,8 +134,7 @@ async def userbroadcast_add(event):
             event, "In which category should i add this chat", parse_mode=parse_pre
         )
     keyword = userinput_str.lower()
-    check = sql.is_in_broadcastlist(keyword, event.chat_id)
-    if check:
+    if check := sql.is_in_broadcastlist(keyword, event.chat_id):
         return await edit_delete(
             event,
             f"This chat is already in this category {keyword}",

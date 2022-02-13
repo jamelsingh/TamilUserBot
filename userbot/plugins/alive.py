@@ -1,4 +1,5 @@
 """Check if tamilBot alive. If you change these, you become the gayest gay such that even the gay world will disown you."""
+
 # CREDITS: @WhySooSerious, @Sur_vivor
 
 # modified by @saravanakrish
@@ -10,13 +11,12 @@ from userbot import ALIVE_NAME, CMD_HELP
 DEFAULTUSER = str(ALIVE_NAME) if ALIVE_NAME else "TamilUserBot"
 
 PM_IMG = Config.ALIVE_IMAGE
-pm_caption = "🤖 **тαмιℓвσт ιѕ:** `ᴏɴʟɪɴᴇ`\n\n"
-pm_caption += "✮ **ѕуѕтємѕ ѕтαтѕ 💻:**\n"
+pm_caption = "🤖 **тαмιℓвσт ιѕ:** `ᴏɴʟɪɴᴇ`\n\n" + "✮ **ѕуѕтємѕ ѕтαтѕ 💻:**\n"
 pm_caption += "✮ **тєℓєтнση νєяѕιση :** `1.15.0` \n"
 pm_caption += "✮ **ρутнση :** `3.7.4` \n"
 pm_caption += "✮ **∂αтαвαѕє ѕтαтυѕ :**  `ꜰᴜɴᴄᴛɪᴏɴᴀʟ`\n"
 pm_caption += "✮ **¢υяяєηт вяαη¢н** : `ᴍᴀꜱᴛᴇʀ`\n"
-pm_caption += f"✮ **νєяѕιση** : `6.5`\n"
+pm_caption += '✮ **νєяѕιση** : `6.5`\n'
 pm_caption += f"✮ **му вσѕѕ** : {DEFAULTUSER} \n\n"
 # pm_caption += "✮ **Heroku Database** : `AWS -\nWorking Properly`💥\n\n"
 # pm_caption += "⫸ **License** : [MIT License](github.com/ivetri/tamilbot/blob/master/LICENSE) ✔\n"

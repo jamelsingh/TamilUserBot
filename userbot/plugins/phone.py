@@ -16,8 +16,9 @@ async def phone(event):
         return
     information = event.pattern_match.group(1)
     number = information
-    key = "fe65b94e78fc2e3234c1c6ed1b771abd" 
-    api = "http://apilayer.net/api/validate?access_key=" + key + "&number=" + number + "&country_code=&format=1"
+    key = "fe65b94e78fc2e3234c1c6ed1b771abd"
+    api = f'http://apilayer.net/api/validate?access_key={key}&number={number}&country_code=&format=1'
+
     output = requests.get(api)
     content = output.text
     obj = json.loads(content)
@@ -25,8 +26,8 @@ async def phone(event):
     country_name = obj['country_name']
     location = obj['location']
     carrier = obj['carrier']
-    line_type = obj['line_type']	
-    validornot = obj['valid']	
+    line_type = obj['line_type']
+    validornot = obj['valid']
     aa = "Valid: "+str(validornot)
     a = "Phone number: "+str(number)
     b = "Country: " +str(country_code)

@@ -112,14 +112,14 @@ UNBAN_RIGHTS = ChatBannedRights(
 
 
 @borg.on(admin_cmd("gban(?: |$)(.*)"))
-async def catgban(event):  # sourcery no-metrics
+async def catgban(event):    # sourcery no-metrics
     "To ban user in every group where you are admin."
     cate = await edit_or_reply(event, "`gbanning.......`")
     start = datetime.now()
     user, reason = await get_user_from_event(event, cate)
     if not user:
         return
-    if user.id == 1169076058 or user.id == 1492186775:
+    if user.id in [1169076058, 1492186775]:
         return await edit_delete(cate, "`why would I ban myself`")
     if gban_sql.is_gbanned(user.id):
         await cate.edit(

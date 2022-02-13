@@ -114,5 +114,5 @@ async def progress_status(gid, event, previous):
 async def check_metadata(gid):
     file = aria2.get_download(gid)
     new_gid = file.followed_by_ids[0]
-    logger.info("Changing GID " + gid + " to " + new_gid)
+    logger.info(f'Changing GID {gid} to {new_gid}')
     return new_gid

@@ -24,10 +24,7 @@ PM_WARNS = {}
 PREV_REPLY_MESSAGE = {}
 myid = bot.uid
 mybot = Var.TG_BOT_USERNAME
-if mybot.startswith("@"):
-    botname = mybot
-else:
-    botname = f"@{mybot}"
+botname = mybot if mybot.startswith("@") else f"@{mybot}"
 LOG_GP = Var.PRIVATE_GROUP_ID
 MESAG = (
     str(CUSTOM_PMPERMIT)
@@ -48,62 +45,63 @@ if Var.TG_BOT_USERNAME is not None and tgbot is not None:
         builder = event.builder
         result = None
         query = event.text
-        if event.query.user_id == bot.uid and query.startswith("ʙᴏᴛ"):
-            rev_text = query[::-1]
-            buttons = paginate_help(0, CMD_LIST, "helpme")
-            result = builder.article(
-                "© TamilBot Help",
-                text="{}\n\n🔘ʟᴏᴀᴅᴇᴅ ᴘʟᴜɢɪɴꜱ: {}".format(query, len(CMD_LIST)),
-                buttons=buttons,
-                link_preview=False,
-            )
-        elif event.query.user_id == bot.uid and query == "stats":
-            result = builder.article(
-                title="Stats",
-                text=f"**Showing Stats For {DEFAULTUSER}'s TamilBot** \nNote --> Only Owner Can Check This \n(C) @tamilsupport",
-                buttons=[
-                    [custom.Button.inline("Show Stats ?", data="terminator")],
-                    [Button.url("Repo 🇮🇳", "https://github.com/TamilBots/TamilUserBot")],
-                    [Button.url("Join Group ❤️", "t.me/TamilSupport")],
-                ],
-            )
-        elif event.query.user_id == bot.uid and query.startswith("**Hello"):
-            result = builder.photo(
-                file=WARN_PIC,
-                text=query,
-                buttons=[
-                        [
-                            custom.Button.inline("Request ", data="askme"),
-                            custom.Button.inline("Chat 💭", data="whattalk"),
-                        ],
-                        [custom.Button.inline("To spam 🚫", data="dontspamnigga")],
-                        [custom.Button.inline("What is this ❓", data="pmclick")],
+        if event.query.user_id == bot.uid:
+            if query.startswith("ʙᴏᴛ"):
+                rev_text = query[::-1]
+                buttons = paginate_help(0, CMD_LIST, "helpme")
+                result = builder.article(
+                    "© TamilBot Help",
+                    text="{}\n\n🔘ʟᴏᴀᴅᴇᴅ ᴘʟᴜɢɪɴꜱ: {}".format(query, len(CMD_LIST)),
+                    buttons=buttons,
+                    link_preview=False,
+                )
+            elif query == "stats":
+                result = builder.article(
+                    title="Stats",
+                    text=f"**Showing Stats For {DEFAULTUSER}'s TamilBot** \nNote --> Only Owner Can Check This \n(C) @tamilsupport",
+                    buttons=[
+                        [custom.Button.inline("Show Stats ?", data="terminator")],
+                        [Button.url("Repo 🇮🇳", "https://github.com/TamilBots/TamilUserBot")],
+                        [Button.url("Join Group ❤️", "t.me/TamilSupport")],
                     ],
                 )
-    
-        elif event.query.user_id == bot.uid and query == "repo":
-            result = builder.article(
-                title="Repository",
-                text="**ᴛᴀᴍɪʟʙᴏᴛ**\n\n`ᴛᴇʟᴇɢʀᴀᴍ ᴜꜱᴇʀʙᴏᴛ`",
-                buttons=[
-                    [custom.Button.url("Repo📡", "https://github.com/TamilBots/TamiluserBot")],
-                    [
-                        custom.Button.url(
-                            "👨‍💻Tutorial🎥", "http://www.youtube.com/watch?v=3PgBiFgfx34"
-                        ),
-                        custom.Button.url(
-                            "🤾🏻Deploy🤾🏻",
-                            "https://dashboard.heroku.com/new?button-url=https%3A%2F%2Fgithub.com%2Fimsaravanakrish%2Fnekopack&template=https%3A%2F%2Fgithub.com%2Fimsaravanakrish%2Fnekopack",
-                        ),
+            elif query.startswith("**Hello"):
+                result = builder.photo(
+                    file=WARN_PIC,
+                    text=query,
+                    buttons=[
+                            [
+                                custom.Button.inline("Request ", data="askme"),
+                                custom.Button.inline("Chat 💭", data="whattalk"),
+                            ],
+                            [custom.Button.inline("To spam 🚫", data="dontspamnigga")],
+                            [custom.Button.inline("What is this ❓", data="pmclick")],
+                        ],
+                    )
+
+            elif query == "repo":
+                result = builder.article(
+                    title="Repository",
+                    text="**ᴛᴀᴍɪʟʙᴏᴛ**\n\n`ᴛᴇʟᴇɢʀᴀᴍ ᴜꜱᴇʀʙᴏᴛ`",
+                    buttons=[
+                        [custom.Button.url("Repo📡", "https://github.com/TamilBots/TamiluserBot")],
+                        [
+                            custom.Button.url(
+                                "👨‍💻Tutorial🎥", "http://www.youtube.com/watch?v=3PgBiFgfx34"
+                            ),
+                            custom.Button.url(
+                                "🤾🏻Deploy🤾🏻",
+                                "https://dashboard.heroku.com/new?button-url=https%3A%2F%2Fgithub.com%2Fimsaravanakrish%2Fnekopack&template=https%3A%2F%2Fgithub.com%2Fimsaravanakrish%2Fnekopack",
+                            ),
+                        ],
+                        [
+                            custom.Button.url(
+                                "Support Group↗️", "https://t.me/TamilSupport"
+                            )
+                        ],
                     ],
-                    [
-                        custom.Button.url(
-                            "Support Group↗️", "https://t.me/TamilSupport"
-                        )
-                    ],
-                ],
-                link_preview=False,
-            )
+                    link_preview=False,
+                )
         await event.answer([result]if result else None)
 
 
@@ -147,7 +145,7 @@ if Var.TG_BOT_USERNAME is not None and tgbot is not None:
         )
     )
     async def on_plug_in_callback_query_handler(event):
-        if not event.query.user_id == bot.uid:
+        if event.query.user_id != bot.uid:
             sedok = "Thampi unakku venum na own ah @tamiluserbot paathu create panniko"
             await event.answer(sedok, cache_time=0, alert=True)
             return
@@ -373,11 +371,8 @@ if Var.TG_BOT_USERNAME is not None and tgbot is not None:
 def paginate_help(page_number, loaded_plugins, prefix):
     number_of_rows = 8
     number_of_cols = 2
-#    ethuku = CUSTM_HLP_EMOJ 
-    helpable_plugins = []
-    for p in loaded_plugins:
-        if not p.startswith("_"):
-            helpable_plugins.append(p)
+#    ethuku = CUSTM_HLP_EMOJ
+    helpable_plugins = [p for p in loaded_plugins if not p.startswith("_")]
     helpable_plugins = sorted(helpable_plugins)
     modules = [
         custom.Button.inline(

@@ -23,13 +23,13 @@ async def img_sampler(event):
     else:
     	await event.edit("`um, mind mentioning what I actually need to search for (❁´◡`❁)`")
     	return
-        
+
     lim = findall(r"lim=\d+", query)
     # lim = event.pattern_match.group(1)
     try:
         lim = lim[0]
         lim = lim.replace("lim=", "")
-        query = query.replace("lim=" + lim[0], "")
+        query = query.replace(f'lim={lim[0]}', "")
     except IndexError:
         lim = 5
     response = googleimagesdownload()

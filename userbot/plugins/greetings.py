@@ -390,59 +390,59 @@ lVESTR = [
 ]
 
 
-@borg.on(admin_cmd(pattern=f"love$", outgoing=True))
+@borg.on(admin_cmd(pattern='love$', outgoing=True))
 async def love(chutiyappa):
     await chutiyappa.edit(choice(LOVESTR))
     
-@borg.on(admin_cmd(pattern=f"abuse$", outgoing=True))
+@borg.on(admin_cmd(pattern='abuse$', outgoing=True))
 async def abuse(ennappa):
     await ennappa.edit(choice(ABUSE))
     
-@borg.on(admin_cmd(pattern=f"sing$", outgoing=True))
+@borg.on(admin_cmd(pattern='sing$', outgoing=True))
 async def sing(ethuku):
     await ethuku.edit(choice(SONG))
 
-@borg.on(admin_cmd(pattern=f"dhoka$", outgoing=True))
+@borg.on(admin_cmd(pattern='dhoka$', outgoing=True))
 async def katgya(chutiya):
     await chutiya.edit(choice(DHOKA))
 
 
-@borg.on(admin_cmd(pattern=f"metoo$", outgoing=True))
+@borg.on(admin_cmd(pattern='metoo$', outgoing=True))
 async def metoo(hahayes):
     await hahayes.edit(choice(METOOSTR))
 
 
-@borg.on(admin_cmd(pattern=f"gnoon$", outgoing=True))
+@borg.on(admin_cmd(pattern='gnoon$', outgoing=True))
 async def noon(noon):
     await noon.edit(choice(GDNOON))
 
 
-@borg.on(admin_cmd(pattern=f"chase$", outgoing=True))
+@borg.on(admin_cmd(pattern='chase$', outgoing=True))
 async def police(chase):
     await chase.edit(choice(CHASE_STR))
 
 
-@borg.on(admin_cmd(pattern=f"congo$", outgoing=True))
+@borg.on(admin_cmd(pattern='congo$', outgoing=True))
 async def Sahih(congrats):
     await congrats.edit(choice(CONGRATULATION))
 
 
-@borg.on(admin_cmd(pattern=f"qhi$", outgoing=True))
+@borg.on(admin_cmd(pattern='qhi$', outgoing=True))
 async def hoi(hello):
     await hello.edit(choice(HELLOSTR))
 
 
-@borg.on(admin_cmd(pattern=f"gbye$", outgoing=True))
+@borg.on(admin_cmd(pattern='gbye$', outgoing=True))
 async def bhago(bhagobc):
     await bhagobc.edit(choice(BYESTR))
 
 
-@borg.on(admin_cmd(pattern=f"gn$", outgoing=True))
+@borg.on(admin_cmd(pattern='gn$', outgoing=True))
 async def night(night):
     await night.edit(choice(GDNIGHT))
 
 
-@borg.on(admin_cmd(pattern=f"gm$", outgoing=True))
+@borg.on(admin_cmd(pattern='gm$', outgoing=True))
 async def morning(morning):
     await morning.edit(choice(GDMORNING))
 

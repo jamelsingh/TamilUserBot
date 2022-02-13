@@ -34,8 +34,6 @@ if Config.PRIVATE_GROUP_ID:
         where_ = await event.client.get_entity(event.chat_id)
 
         where_m = get_display_name(where_)
-        button_text = "📨 Go to Message  "
-
         if isinstance(where_, Channel):
             message_link = f"https://t.me/c/{where_.id}/{event.id}"
         else:
@@ -47,6 +45,8 @@ if Config.PRIVATE_GROUP_ID:
 
         ammoca_message += f"{who_m} tagged you in [{where_m}]({message_link})"
         if NEEDTOLOG is not None:
+            button_text = "📨 Go to Message  "
+
             await tgbot.send_message(
                 entity=NEEDTOLOG,
                 message=ammoca_message,

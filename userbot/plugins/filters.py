@@ -46,27 +46,23 @@ last_triggered_filters = {}  # pylint:disable=E0602
 
 
 @command(incoming=True)
-
 async def on_snip(event):
 
     global last_triggered_filters
 
     name = event.raw_text
 
-    if event.chat_id in last_triggered_filters:
+    if (
+        event.chat_id in last_triggered_filters
+        and name in last_triggered_filters[event.chat_id]
+    ):
+        # avoid userbot spam
 
-        if name in last_triggered_filters[event.chat_id]:
+        # "I demand rights for us bots, we are equal to you humans." -Henri Koivuneva (t.me/UserbotTesting/2698)
 
-            # avoid userbot spam
+        return False
 
-            # "I demand rights for us bots, we are equal to you humans." -Henri Koivuneva (t.me/UserbotTesting/2698)
-
-            return False
-
-    snips = get_all_filters(event.chat_id)
-
-    if snips:
-
+    if snips := get_all_filters(event.chat_id):
         for snip in snips:
 
             pattern = r"( |^|[^\w])" + re.escape(snip.keyword) + r"( |$|[^\w])"
@@ -101,12 +97,7 @@ async def on_snip(event):
 
                     media = None
 
-                message_id = event.message.id
-
-                if event.reply_to_msg_id:
-
-                    message_id = event.reply_to_msg_id
-
+                message_id = event.reply_to_msg_id or event.message.id
                 await event.reply(
 
                     snip.reply,
@@ -241,12 +232,11 @@ async def on_snip_delete(event):
 
 
 @command(pattern="^.clearallfilters$")
-
 async def on_all_snip_delete(event):
 
     remove_all_filters(event.chat_id)
 
-    await event.edit(f"filters **in current chat** deleted successfully")
+    await event.edit('filters **in current chat** deleted successfully')
 
 
 

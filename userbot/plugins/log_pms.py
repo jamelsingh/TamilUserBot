@@ -156,22 +156,17 @@ async def set_pmlog(event):
         h_type = False
     elif input_str == "on":
         h_type = True
-    if gvarstatus("PMLOG") and gvarstatus("PMLOG") == "false":
-        PMLOG = False
-    else:
-        PMLOG = True
-    if PMLOG:
+    if PMLOG := not gvarstatus("PMLOG") or gvarstatus("PMLOG") != "false":
         if h_type:
             await event.edit("`Pm logging is already enabled`")
         else:
             addgvar("PMLOG", h_type)
             await event.edit("`Pm logging is disabled`")
+    elif h_type:
+        addgvar("PMLOG", h_type)
+        await event.edit("`Pm logging is enabled`")
     else:
-        if h_type:
-            addgvar("PMLOG", h_type)
-            await event.edit("`Pm logging is enabled`")
-        else:
-            await event.edit("`Pm logging is already disabled`")
+        await event.edit("`Pm logging is already disabled`")
 
 
 @borg.on(admin_cmd(pattern="grplog (on|off)$"))
@@ -183,22 +178,17 @@ async def set_grplog(event):
         h_type = False
     elif input_str == "on":
         h_type = True
-    if gvarstatus("GRPLOG") and gvarstatus("GRPLOG") == "false":
-        GRPLOG = False
-    else:
-        GRPLOG = True
-    if GRPLOG:
+    if GRPLOG := not gvarstatus("GRPLOG") or gvarstatus("GRPLOG") != "false":
         if h_type:
             await event.edit("`Group logging is already enabled`")
         else:
             addgvar("GRPLOG", h_type)
             await event.edit("`Group logging is disabled`")
+    elif h_type:
+        addgvar("GRPLOG", h_type)
+        await event.edit("`Group logging is enabled`")
     else:
-        if h_type:
-            addgvar("GRPLOG", h_type)
-            await event.edit("`Group logging is enabled`")
-        else:
-            await event.edit("`Group logging is already disabled`")
+        await event.edit("`Group logging is already disabled`")
 
 
 CMD_HELP.update(

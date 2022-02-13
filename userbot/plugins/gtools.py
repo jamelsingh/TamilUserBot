@@ -13,7 +13,7 @@ from userbot.events import register
 async def get_full_user(event):
     args = event.pattern_match.group(1).split(":", 1)
     extra = None
-    if event.reply_to_msg_id and not len(args) == 2:
+    if event.reply_to_msg_id and len(args) != 2:
         previous_message = await event.get_reply_message()
         user_obj = await event.client.get_entity(previous_message.from_id)
         extra = event.pattern_match.group(1)
@@ -55,12 +55,12 @@ async def gspider(userbot):
     lol = userbot
     sender = await lol.get_sender()
     me = await lol.client.get_me()
-    if not sender.id == me.id:
+    if sender.id != me.id:
         event = await lol.reply("Gbanning This User !")
     else:
         event = await lol.edit("Wait Processing.....")
     me = await userbot.client.get_me()
-    await event.edit(f"Global Ban Is Coming ! Wait And Watch You Nigga")
+    await event.edit('Global Ban Is Coming ! Wait And Watch You Nigga')
     my_mention = "[{}](tg://user?id={})".format(me.first_name, me.id)
     f"@{me.username}" if me.username else my_mention
     await userbot.get_chat()
@@ -78,12 +78,13 @@ async def gspider(userbot):
         if not reason:
             reason = "Private"
     except:
-        return await event.edit(f"**Something W3NT Wrong 🤔**")
+        return await event.edit('**Something W3NT Wrong 🤔**')
     if user:
-        if user.id == 1169076058 or user.id == 1492186775:
+        if user.id in [1169076058, 1492186775]:
             return await event.edit(
-                f"**Didn't , Your Father Teach You ? That You Cant Gban Dev**"
+                "**Didn't , Your Father Teach You ? That You Cant Gban Dev**"
             )
+
         try:
             from userbot.modules.sql_helper.gmute_sql import gmute
         except:
@@ -105,10 +106,10 @@ async def gspider(userbot):
             except:
                 b += 1
     else:
-        await event.edit(f"**Reply to a user !!**")
+        await event.edit('**Reply to a user !!**')
     try:
         if gmute(user.id) is False:
-            return await event.edit(f"**Error! User probably already gbanned.**")
+            return await event.edit('**Error! User probably already gbanned.**')
     except:
         pass
     return await event.edit(
@@ -121,12 +122,12 @@ async def gspider(userbot):
     lol = userbot
     sender = await lol.get_sender()
     me = await lol.client.get_me()
-    if not sender.id == me.id:
+    if sender.id != me.id:
         event = await lol.reply("`Wait Let Me Process`")
     else:
         event = await lol.edit("One Min ! ")
     me = await userbot.client.get_me()
-    await event.edit(f"Trying To Ungban User !")
+    await event.edit('Trying To Ungban User !')
     my_mention = "[{}](tg://user?id={})".format(me.first_name, me.id)
     f"@{me.username}" if me.username else my_mention
     await userbot.get_chat()
@@ -146,7 +147,7 @@ async def gspider(userbot):
     except:
         return await event.edit("Someting Went Wrong 🤔")
     if user:
-        if user.id == 1169076058 or user.id == 1492186775:
+        if user.id in [1169076058, 1492186775]:
             return await event.edit("**You Cant Ungban A Dev !**")
         try:
             from userbot.modules.sql_helper.gmute_sql import ungmute
@@ -182,33 +183,34 @@ async def gspider(userbot):
 
 @borg.on(ChatAction)
 async def handler(rkG):
-    if rkG.user_joined or rkG.user_added:
-        try:
-            from userbot.modules.sql_helper.gmute_sql import is_gmuted
+    if not rkG.user_joined and not rkG.user_added:
+        return
+    try:
+        from userbot.modules.sql_helper.gmute_sql import is_gmuted
 
-            guser = await rkG.get_user()
-            gmuted = is_gmuted(guser.id)
-        except:
-            return
-        if gmuted:
-            for i in gmuted:
-                if i.sender == str(guser.id):
-                    chat = await rkG.get_chat()
-                    admin = chat.admin_rights
-                    creator = chat.creator
-                    if admin or creator:
-                        try:
-                            await client.edit_permissions(
-                                rkG.chat_id, guser.id, view_messages=False
-                            )
-                            await rkG.reply(
-                                f"**Gbanned User Joined!!** \n"
-                                f"**Victim Id**: [{guser.id}](tg://user?id={guser.id})\n"
-                                f"**Action **  : `Banned`"
-                            )
-                        except:
-                            rkG.reply("`No Permission To Ban`")
-                            return
+        guser = await rkG.get_user()
+        gmuted = is_gmuted(guser.id)
+    except:
+        return
+    if gmuted:
+        for i in gmuted:
+            if i.sender == str(guser.id):
+                chat = await rkG.get_chat()
+                admin = chat.admin_rights
+                creator = chat.creator
+                if admin or creator:
+                    try:
+                        await client.edit_permissions(
+                            rkG.chat_id, guser.id, view_messages=False
+                        )
+                        await rkG.reply(
+                            f"**Gbanned User Joined!!** \n"
+                            f"**Victim Id**: [{guser.id}](tg://user?id={guser.id})\n"
+                            f"**Action **  : `Banned`"
+                        )
+                    except:
+                        rkG.reply("`No Permission To Ban`")
+                        return
 
 
 @borg.on(admin_cmd(pattern=r"gmute ?(\d+)?"))
@@ -225,7 +227,7 @@ async def startgmute(event):
         userid = event.pattern_match.group(1)
     elif reply is not None:
         userid = reply.sender_id
-    elif private is True:
+    elif private:
         userid = event.chat_id
     else:
         return await event.edit(
@@ -257,7 +259,7 @@ async def endgmute(event):
         userid = event.pattern_match.group(1)
     elif reply is not None:
         userid = reply.sender_id
-    elif private is True:
+    elif private:
         userid = event.chat_id
     else:
         return await event.edit(
@@ -339,7 +341,7 @@ from userbot.utils import admin_cmd
 async def get_full_user(event):  
     args = event.pattern_match.group(1).split(':', 1)
     extra = None
-    if event.reply_to_msg_id and not len(args) == 2:
+    if event.reply_to_msg_id and len(args) != 2:
         previous_message = await event.get_reply_message()
         user_obj = await event.client.get_entity(previous_message.sender_id)
         extra = event.pattern_match.group(1)
@@ -362,7 +364,7 @@ async def get_full_user(event):
         try:
             user_obj = await event.client.get_entity(user)
         except Exception as err:
-            return await event.edit("Error... Please report at @TamilsuPPorT", str(err))           
+            return await event.edit("Error... Please report at @TamilsuPPorT", str(err))
     return user_obj, extra
 
 async def get_user_from_id(user, event):
@@ -400,7 +402,7 @@ async def gben(userbot):
         if not rank:
             rank = "ㅤㅤ"
     except:
-        return await dark.edit(f"**Something W3NT Wrong 🤔**")
+        return await dark.edit('**Something W3NT Wrong 🤔**')
     if user:
         telchanel = [d.entity.id
                      for d in await userbot.client.get_dialogs()
@@ -420,7 +422,7 @@ async def gben(userbot):
           except:
              pass
     else:
-        await dark.edit(f"**Reply to a user you dumbo !!**")
+        await dark.edit('**Reply to a user you dumbo !!**')
     return await dark.edit(
         f"**Globally promoted [{user.first_name}](tg://user?id={user.id})\n On Chats😏 : {i} **"
     )
@@ -450,7 +452,7 @@ async def gben(userbot):
         if not rank:
             rank = "ㅤㅤ"
     except:
-        return await dark.edit(f"**Something W3NT Wrong 🤔**")
+        return await dark.edit('**Something W3NT Wrong 🤔**')
     if user:
         telchanel = [d.entity.id
                      for d in await userbot.client.get_dialogs()
@@ -470,7 +472,7 @@ async def gben(userbot):
           except:
              pass
     else:
-        await dark.edit(f"**Reply to a user you dumbo !!**")
+        await dark.edit('**Reply to a user you dumbo !!**')
     return await dark.edit(
         f"**Globally Demoted [{user.first_name}](tg://user?id={user.id})\n On Chats😏 : {i} **"
     )

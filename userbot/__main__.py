@@ -41,7 +41,7 @@ else:
         print("Startup Completed")
     else:
         bot.start()
-    
+
 
 import glob
 path = 'userbot/plugins/*.py'
@@ -65,7 +65,8 @@ else:
     sed.info("TamilUserBot Been Installed Sucessfully !")
     sed.info("You Can Visit TamilBots For Any Support Or Doubts")
 
-if len(argv) not in (1, 3, 4):
-    bot.disconnect()
-else:
+if len(argv) in {1, 3, 4}:
     bot.run_until_disconnected()
+
+else:
+    bot.disconnect()

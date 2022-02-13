@@ -48,11 +48,10 @@ async def set_not_afk(event):
         endtime = ""
         if d > 0:
             endtime += f"{d}d {h}h {m}m {s}s"
+        elif h > 0:
+            endtime += f"{h}h {m}m {s}s"
         else:
-            if h > 0:
-                endtime += f"{h}h {m}m {s}s"
-            else:
-                endtime += f"{m}m {s}s" if m > 0 else f"{s}s"
+            endtime += f"{m}m {s}s" if m > 0 else f"{s}s"
     current_message = event.message.message
     if (("afk" not in current_message) or ("#afk" not in current_message)) and (
         "on" in AFK_.USERAFK_ON
@@ -96,11 +95,10 @@ async def on_afk(event):
         endtime = ""
         if d > 0:
             endtime += f"{d}d {h}h {m}m {s}s"
+        elif h > 0:
+            endtime += f"{h}h {m}m {s}s"
         else:
-            if h > 0:
-                endtime += f"{h}h {m}m {s}s"
-            else:
-                endtime += f"{m}m {s}s" if m > 0 else f"{s}s"
+            endtime += f"{m}m {s}s" if m > 0 else f"{s}s"
     current_message_text = event.message.message.lower()
     if "afk" in current_message_text or "#afk" in current_message_text:
         # userbot's should not reply to other userbot's
@@ -199,7 +197,7 @@ async def _(event):
                 event, f"`I shall be Going afk! because ~` {AFK_.reason}", 5
             )
         else:
-            await edit_delete(event, f"`I shall be Going afk! `", 5)
+            await edit_delete(event, '`I shall be Going afk! `', 5)
         if BOTLOG:
             if AFK_.reason:
                 await event.client.send_message(
@@ -209,7 +207,7 @@ async def _(event):
             else:
                 await event.client.send_message(
                     BOTLOG_CHATID,
-                    f"#AFKTRUE \nSet AFK mode to True, and Reason is Not Mentioned",
+                    '#AFKTRUE \nSet AFK mode to True, and Reason is Not Mentioned',
                 )
 
 
@@ -249,7 +247,7 @@ async def _(event):
                 event, f"`I shall be Going afk! because ~` {AFK_.reason}", 5
             )
         else:
-            await edit_delete(event, f"`I shall be Going afk! `", 5)
+            await edit_delete(event, '`I shall be Going afk! `', 5)
         AFK_.media_afk = await reply.forward_to(BOTLOG_CHATID)
         if AFK_.reason:
             await event.client.send_message(
@@ -259,7 +257,7 @@ async def _(event):
         else:
             await event.client.send_message(
                 BOTLOG_CHATID,
-                f"#AFKTRUE \nSet AFK mode to True, and Reason is Not Mentioned",
+                '#AFKTRUE \nSet AFK mode to True, and Reason is Not Mentioned',
             )
 
 

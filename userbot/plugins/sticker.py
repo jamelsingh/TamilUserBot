@@ -61,7 +61,7 @@ from telethon.tl.types import Channel, PollAnswer
 from validators.url import url
 
 
-thumb_image_path = Config.TMP_DOWNLOAD_DIRECTORY + "/thumb_image.jpg"
+thumb_image_path = f'{Config.TMP_DOWNLOAD_DIRECTORY}/thumb_image.jpg'
 
 KANGING_STR = [
     "Using Witchery to kang this sticker...",

@@ -309,9 +309,10 @@ async def type(animu):
     await sticcers[0].click(
         animu.chat_id,
         reply_to=animu.reply_to_msg_id,
-        silent=True if animu.is_reply else False,
+        silent=bool(animu.is_reply),
         hide_via=True,
     )
+
     await animu.delete()
 
 
@@ -336,9 +337,10 @@ async def waifu(danish):
     await sticcers[0].click(
         danish.chat_id,
         reply_to=danish.reply_to_msg_id,
-        silent=True if danish.is_reply else False,
+        silent=bool(danish.is_reply),
         hide_via=True,
     )
+
     await danish.delete()
 
 
@@ -386,9 +388,10 @@ async def tweetme(okie):
     await sticcers[0].click(
         okie.chat_id,
         reply_to=okie.reply_to_msg_id,
-        silent=True if okie.is_reply else False,
+        silent=bool(okie.is_reply),
         hide_via=True,
     )
+
     await okie.delete()
 
 

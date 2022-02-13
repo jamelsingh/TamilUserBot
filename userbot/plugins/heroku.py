@@ -90,11 +90,10 @@ async def variable(var):
         except IndexError:
             return await var.edit("`Please specify ConfigVars you want to delete`")
         await asyncio.sleep(1.5)
-        if variable in heroku_var:
-            await var.edit(f"**{variable}**  `successfully deleted`")
-            del heroku_var[variable]
-        else:
+        if variable not in heroku_var:
             return await var.edit(f"**{variable}**  `is not exists`")
+        await var.edit(f"**{variable}**  `successfully deleted`")
+        del heroku_var[variable]
 
 
 @register(outgoing=True, pattern=r"^\.usage(?: |$)")
@@ -113,7 +112,7 @@ async def dyno_usage(dyno):
      'Authorization': f'Bearer {Var.HEROKU_API_KEY}',
      'Accept': 'application/vnd.heroku+json; version=3.account-quotas',
     }
-    path = "/accounts/" + user_id + "/actions/get-quota"
+    path = f'/accounts/{user_id}/actions/get-quota'
     r = requests.get(heroku_api + path, headers=headers)
     if r.status_code != 200:
         return await dyno.edit("`Error: something bad happened`\n\n"

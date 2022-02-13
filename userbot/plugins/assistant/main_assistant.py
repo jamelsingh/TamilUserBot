@@ -88,13 +88,16 @@ async def start(event):
 @tgbot.on(events.callbackquery.CallbackQuery(data=re.compile(b"ebackme"))
           )  # pylint: disable=oof
 async def ebackme(event):
-    await event.edit(f"𝐇𝐞𝐥𝐥𝐨,  𝐚𝐢𝐲𝐲𝐚 𝐍𝐢𝐜𝐞 𝐓𝐨 𝐌𝐞𝐞𝐭 𝐘𝐨𝐮. \n\n𝐜𝐡𝐞𝐜𝐤 𝐡𝐞𝐫𝐞 𝐡𝐨𝐰 𝐭𝐨 𝐠𝐞𝐭 𝐲𝐨𝐮𝐫 𝐨𝐰𝐧 𝐓𝐚𝐦𝐢𝐥𝐔𝐬𝐞𝐫𝐁𝐨𝐭:",
-                     buttons=[
-                         [(Button.url("ꜱᴜᴘᴘᴏʀᴛ ɢʀᴏᴜᴘ", url="https://t.me/TamilSupport")),
-                          (Button.url("ᴜᴘᴅᴀᴛᴇꜱ", url="https://t.me/TamilUserBot"))],
-                         [custom.Button.inline("ᴅᴇᴘʟᴏʏ ʏᴏᴜʀ ᴛᴀᴍɪʟᴜꜱᴇʀʙᴏᴛ",
-                                    data="deploy")]
-                     ])
+    await event.edit(
+        '𝐇𝐞𝐥𝐥𝐨,  𝐚𝐢𝐲𝐲𝐚 𝐍𝐢𝐜𝐞 𝐓𝐨 𝐌𝐞𝐞𝐭 𝐘𝐨𝐮. \n\n𝐜𝐡𝐞𝐜𝐤 𝐡𝐞𝐫𝐞 𝐡𝐨𝐰 𝐭𝐨 𝐠𝐞𝐭 𝐲𝐨𝐮𝐫 𝐨𝐰𝐧 𝐓𝐚𝐦𝐢𝐥𝐔𝐬𝐞𝐫𝐁𝐨𝐭:',
+        buttons=[
+            [
+                (Button.url("ꜱᴜᴘᴘᴏʀᴛ ɢʀᴏᴜᴘ", url="https://t.me/TamilSupport")),
+                (Button.url("ᴜᴘᴅᴀᴛᴇꜱ", url="https://t.me/TamilUserBot")),
+            ],
+            [custom.Button.inline("ᴅᴇᴘʟᴏʏ ʏᴏᴜʀ ᴛᴀᴍɪʟᴜꜱᴇʀʙᴏᴛ", data="deploy")],
+        ],
+    )
 
 
 
@@ -127,8 +130,6 @@ async def users(event):
                 caption="Total Users In Your Bot.",
                 allow_cache=False,
             )
-    else:
-        pass
 
 
 @tgbot.on(events.callbackquery.CallbackQuery(data=re.compile(b"gibcmd")))
@@ -155,8 +156,13 @@ async def all_messages_catcher(event):
                 )
             )
         except telethon.errors.rpcerrorlist.UserNotParticipantError:
-            await event.reply(f"**Opps, I Couldn't Forward That Message To Owner. Please Join My Channel First And Then Try Again!**",
-                             buttons = [Button.url("Join Channel 🇮🇳", Config.JTM_CHANNEL_USERNAME)])
+            await event.reply(
+                "**Opps, I Couldn't Forward That Message To Owner. Please Join My Channel First And Then Try Again!**",
+                buttons=[
+                    Button.url("Join Channel 🇮🇳", Config.JTM_CHANNEL_USERNAME)
+                ],
+            )
+
             return
     await event.get_sender()
     sed = await event.forward_to(bot.uid)
@@ -199,10 +205,7 @@ async def sedlyfsir(event):
     error_count = 0
     sent_count = 0
     hmmok = ""
-    if msgtobroadcast == None:
-        await event.reply("`Wait. What? Broadcast None?`")
-        return
-    elif msgtobroadcast == " ":
+    if msgtobroadcast is None or msgtobroadcast == " ":
         await event.reply("`Wait. What? Broadcast None?`")
         return
     for starkcast in userstobc:

@@ -109,8 +109,8 @@ def load_module(shortname):
         sys.modules["userbot.events"] = userbot.utils
         spec.loader.exec_module(mod)
         # for imports
-        sys.modules["userbot.plugins."+shortname] = mod
-        print("Successfully imported "+shortname)
+        sys.modules[f'userbot.plugins.{shortname}'] = mod
+        print(f'Successfully imported {shortname}')
 
 def remove_plugin(shortname):
     try:
@@ -144,7 +144,7 @@ def admin_cmd(pattern=None, command=None, **args):
             args["pattern"] = re.compile(pattern)
         else:
             args["pattern"] = re.compile("\." + pattern)
-            cmd = "." + pattern
+            cmd = f'.{pattern}'
             try:
                 CMD_LIST[file_test].append(cmd)
             except:
@@ -244,15 +244,16 @@ def errors_handler(func):
                 'date': datetime.datetime.now()
             }
 
-            text = "**USERBOT CRASH REPORT**\n\n"
-
             link = "[here](https://t.me/PaperplaneExtendedSupport)"
-            text += "If you wanna you can report it"
+            text = "**USERBOT CRASH REPORT**\n\n" + "If you wanna you can report it"
             text += f"- just forward this message {link}.\n"
             text += "Nothing is logged except the fact of error and date\n"
 
-            ftext = "\nDisclaimer:\nThis file uploaded ONLY here,"
-            ftext += "\nwe logged only fact of error and date,"
+            ftext = (
+                "\nDisclaimer:\nThis file uploaded ONLY here,"
+                + "\nwe logged only fact of error and date,"
+            )
+
             ftext += "\nwe respect your privacy,"
             ftext += "\nyou may not report this error if you've"
             ftext += "\nany confidential data here, no one will see your data\n\n"
@@ -298,8 +299,10 @@ async def progress(current, total, event, start, type_of_ps, file_name=None):
         estimated_total_time = elapsed_time + time_to_completion
         progress_str = "[{0}{1}]\nProgress: {2}%\n".format(
             ''.join(["█" for i in range(math.floor(percentage / 5))]),
-            ''.join(["░" for i in range(20 - math.floor(percentage / 5))]),
-            round(percentage, 2))
+            ''.join(["░" for _ in range(20 - math.floor(percentage / 5))]),
+            round(percentage, 2),
+        )
+
         tmp = progress_str + \
             "{0} of {1}\nETA: {2}".format(
                 humanbytes(current),
@@ -420,7 +423,7 @@ def start_assistant(shortname):
         mod = importlib.util.module_from_spec(spec)
         mod.tgbot = bot.tgbot
         spec.loader.exec_module(mod)
-        sys.modules["userbot.plugins.assistant" + shortname] = mod
+        sys.modules[f'userbot.plugins.assistant{shortname}'] = mod
         print("TGBot Has imported " + shortname)
 
 
@@ -450,5 +453,5 @@ def load_assistant(shortname):
         mod = importlib.util.module_from_spec(spec)
         mod.tgbot = bot.tgbot
         spec.loader.exec_module(mod)
-        sys.modules["userbot.plugins.assistant." + shortname] = mod
+        sys.modules[f'userbot.plugins.assistant.{shortname}'] = mod
         print("Tamiluserbot Has imported " + shortname)

@@ -129,7 +129,7 @@ async def fetch_info(replied_user, event):
     caption += f"<b>🌐 ιѕ νєяιƒιє∂ ву тєℓєgяαм:</b> {verified}\n\n"
     caption += f"<b>✍️ вισ:</b> \n<code>{user_bio}</code>\n\n"
     caption += f"<b>👥 ¢σммση ¢нαтѕ ωιтн тнιѕ υѕєя:</b> {common_chat}\n"
-    caption += f"<b>🔗 ρєямαηєηт ℓιηк тσ ρяσƒιℓє:</b> "
+    caption += '<b>🔗 ρєямαηєηт ℓιηк тσ ρяσƒιℓє:</b> '
     caption += f'<a href="tg://user?id={user_id}">{first_name}</a>'
     return photo, caption
 

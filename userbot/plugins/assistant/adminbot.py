@@ -79,9 +79,7 @@ async def ban(event):
     if kekme.is_admin:
         await event.reply("Oh, Yeah? Lets Start Banning Admins.")
         return
-    if user:
-        pass
-    else:
+    if not user:
         return
     try:
         await event.client(EditBannedRequest(event.chat_id, user.id, BANNED_RIGHTS))
@@ -101,9 +99,7 @@ async def nothanos(event):
     chat.creator
     user = await get_user_from_event(event)
     user = user[0]
-    if user:
-        pass
-    else:
+    if not user:
         return
     try:
         await event.client(EditBannedRequest(event.chat_id, user.id, UNBAN_RIGHTS))
@@ -133,9 +129,7 @@ async def promote(event):
         return
     if not rank:
         rank = "Admin"
-    if user:
-        pass
-    else:
+    if not user:
         return
     try:
         await event.client(EditAdminRequest(event.chat_id, user.id, new_rights, rank))
@@ -156,9 +150,7 @@ async def demote(event):
     rank = "Admin"
     user = await get_user_from_event(event)
     user = user[0]
-    if user:
-        pass
-    else:
+    if not user:
         return
 
     newrights = ChatAdminRights(
@@ -187,9 +179,7 @@ async def pin(event):
         await event.reply("`Reply to a message to pin it.`")
         return
     options = event.pattern_match.group(1)
-    is_silent = True
-    if options.lower() == "loud":
-        is_silent = False
+    is_silent = options.lower() != "loud"
     try:
         await event.client(UpdatePinnedMessageRequest(event.to_id, to_pin, is_silent))
     except BadRequestError:
