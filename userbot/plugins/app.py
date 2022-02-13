@@ -24,7 +24,6 @@ from userbot.utils import admin_cmd
 
 #@register(pattern="^.app (.*)")
 @borg.on(admin_cmd(pattern="app (.*)"))
-
 async def apk(e):
 
     try:
@@ -35,7 +34,10 @@ async def apk(e):
 
         final_name = '+'.join(remove_space)
 
-        page = requests.get("https://play.google.com/store/search?q="+final_name+"&c=apps")
+        page = requests.get(
+            f'https://play.google.com/store/search?q={final_name}&c=apps'
+        )
+
 
         lnk = str(page.status_code)
 
@@ -47,17 +49,19 @@ async def apk(e):
 
         app_dev = results[0].findNext('div', 'Vpfmgd').findNext('div', 'KoLSrc').text
 
-        app_dev_link = "https://play.google.com"+results[0].findNext('div', 'Vpfmgd').findNext('a', 'mnKHRc')['href']
+        app_dev_link = f'https://play.google.com{results[0].findNext("div", "Vpfmgd").findNext("a", "mnKHRc")["href"]}'
+
 
         app_rating = results[0].findNext('div', 'Vpfmgd').findNext('div', 'pf5lIe').find('div')['aria-label']
 
-        app_link = "https://play.google.com"+results[0].findNext('div', 'Vpfmgd').findNext('div', 'vU6FJ p63iDd').a['href']
+        app_link = f'https://play.google.com{results[0].findNext("div", "Vpfmgd").findNext("div", "vU6FJ p63iDd").a["href"]}'
+
 
         app_icon = results[0].findNext('div', 'Vpfmgd').findNext('div', 'uzcko').img['data-src']
 
         app_details = "<a href='"+app_icon+"'>ð²&#8203;</a>"
 
-        app_details += " <b>"+app_name+"</b>"
+        app_details += f' <b>{app_name}</b>'
 
         app_details += "\n\n<code>Developer :</code> <a href='"+app_dev_link+"'>"+app_dev+"</a>"
 
@@ -91,7 +95,10 @@ async def apkr(e):
 
         final_name = '+'.join(remove_space)
 
-        page = requests.get("https://play.google.com/store/search?q="+final_name+"&c=apps")
+        page = requests.get(
+            f'https://play.google.com/store/search?q={final_name}&c=apps'
+        )
+
 
         lnk = str(page.status_code)
 
@@ -103,17 +110,19 @@ async def apkr(e):
 
         app_dev = results[0].findNext('div', 'Vpfmgd').findNext('div', 'KoLSrc').text
 
-        app_dev_link = "https://play.google.com"+results[0].findNext('div', 'Vpfmgd').findNext('a', 'mnKHRc')['href']
+        app_dev_link = f'https://play.google.com{results[0].findNext("div", "Vpfmgd").findNext("a", "mnKHRc")["href"]}'
+
 
         app_rating = results[0].findNext('div', 'Vpfmgd').findNext('div', 'pf5lIe').find('div')['aria-label']
 
-        app_link = "https://play.google.com"+results[0].findNext('div', 'Vpfmgd').findNext('div', 'vU6FJ p63iDd').a['href']
+        app_link = f'https://play.google.com{results[0].findNext("div", "Vpfmgd").findNext("div", "vU6FJ p63iDd").a["href"]}'
+
 
         app_icon = results[0].findNext('div', 'Vpfmgd').findNext('div', 'uzcko').img['data-src']
 
         app_details = "<a href='"+app_icon+"'>ð²&#8203;</a>"
 
-        app_details += " <b>"+app_name+"</b>"
+        app_details += f' <b>{app_name}</b>'
 
         app_details += "\n\n<code>Developer :</code> <a href='"+app_dev_link+"'>"+app_dev+"</a>"
 

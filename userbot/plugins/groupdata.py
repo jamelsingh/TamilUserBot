@@ -50,20 +50,20 @@ async def _(event):
             return None
     try:
         async for x in borg.iter_participants(chat, filter=ChannelParticipantsAdmins):
-            if not x.deleted:
-                if isinstance(x.participant, ChannelParticipantCreator):
-                    mentions += "\n 👑 [{}](tg://user?id={}) `{}`".format(
-                        x.first_name, x.id, x.id
-                    )
+            if not x.deleted and isinstance(
+                x.participant, ChannelParticipantCreator
+            ):
+                mentions += "\n 👑 [{}](tg://user?id={}) `{}`".format(
+                    x.first_name, x.id, x.id
+                )
         mentions += "\n"
         async for x in borg.iter_participants(chat, filter=ChannelParticipantsAdmins):
-            if not x.deleted:
-                if isinstance(x.participant, ChannelParticipantAdmin):
-                    mentions += "\n ⚜️ [{}](tg://user?id={}) `{}`".format(
-                        x.first_name, x.id, x.id
-                    )
-            else:
+            if x.deleted:
                 mentions += "\n `{}`".format(x.id)
+            elif isinstance(x.participant, ChannelParticipantAdmin):
+                mentions += "\n ⚜️ [{}](tg://user?id={}) `{}`".format(
+                    x.first_name, x.id, x.id
+                )
     except Exception as e:
         mentions += " " + str(e) + "\n"
     if should_mention_admins:
@@ -377,7 +377,6 @@ async def fetch_info(chat, event):  # sourcery no-metrics
             caption += f", <code>{slowmode_time}s</code>\n\n"
         else:
             caption += "\n\n"
-    if not broadcast:
         caption += f"» Supergroup: {supergroup}\n\n"
     if hasattr(chat_obj_info, "restricted"):
         caption += f"» Restricted: {restricted}\n"

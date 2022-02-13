@@ -12,7 +12,39 @@ async def startmute(event):
         await event.edit("Unexpected issues or ugly errors may occur!")
         await asyncio.sleep(3)
         private = True
-    if any([x in event.raw_text for x in ("/mute", "!mute", "amute", "bmute", "cmute", "dmute", "emute", "fmute", "gmute", "hmute", "imute", "jmute", "kmute", "lmute", "mmute", "nmute", "omute", "pmute", "qmute", "rmute", "smute", "tmute", "umute", "vmute", "wmute", "xmute", "ymute", "zmute" )]):
+    if any(
+        x in event.raw_text
+        for x in (
+            "/mute",
+            "!mute",
+            "amute",
+            "bmute",
+            "cmute",
+            "dmute",
+            "emute",
+            "fmute",
+            "gmute",
+            "hmute",
+            "imute",
+            "jmute",
+            "kmute",
+            "lmute",
+            "mmute",
+            "nmute",
+            "omute",
+            "pmute",
+            "qmute",
+            "rmute",
+            "smute",
+            "tmute",
+            "umute",
+            "vmute",
+            "wmute",
+            "xmute",
+            "ymute",
+            "zmute",
+        )
+    ):
         await asyncio.sleep(0.5)
     else:
         reply = await event.get_reply_message()
@@ -20,22 +52,18 @@ async def startmute(event):
             userid = event.pattern_match.group(1)
         elif reply is not None:
             userid = reply.sender_id
-        elif private is True:
+        elif private:
             userid = event.chat_id
         else:
             return await event.edit("Please reply to a user or add their userid into the command to mute them.")
         chat_id = event.chat_id
         chat = await event.get_chat()
         if "admin_rights" in vars(chat) and vars(chat)["admin_rights"] is not None: 
-            if chat.admin_rights.delete_messages is True:
-                pass
-            else:
+            if chat.admin_rights.delete_messages is not True:
                 return await event.edit("`You can't mute a person if you dont have delete messages permission. ಥ﹏ಥ`")
         elif "creator" in vars(chat):
             pass
-        elif private == True:
-            pass
-        else:
+        elif not private:
             return await event.edit("`You can't mute a person without admin rights niqq.` ಥ﹏ಥ  ")
         if is_muted(userid, chat_id):
             return await event.edit("This user is already muted in this chat ~~lmfao sed rip~~")
@@ -56,7 +84,39 @@ async def endmute(event):
         await event.edit("Unexpected issues or ugly errors may occur!")
         await asyncio.sleep(3)
         private = True
-    if any([x in event.raw_text for x in ("/unmute", "!unmute", "aunmute", "bunmute", "cunmute", "dunmute", "eunmute", "funmute", "gunmute", "hunmute", "iunmute", "junmute", "kunmute", "lunmute", "munmute", "nunmute", "ounmute", "punmute", "qunmute", "runmute", "sunmute", "tunmute", "uunmute", "vunmute", "wunmute", "xunmute", "yunmute", "zunmute" )]):
+    if any(
+        x in event.raw_text
+        for x in (
+            "/unmute",
+            "!unmute",
+            "aunmute",
+            "bunmute",
+            "cunmute",
+            "dunmute",
+            "eunmute",
+            "funmute",
+            "gunmute",
+            "hunmute",
+            "iunmute",
+            "junmute",
+            "kunmute",
+            "lunmute",
+            "munmute",
+            "nunmute",
+            "ounmute",
+            "punmute",
+            "qunmute",
+            "runmute",
+            "sunmute",
+            "tunmute",
+            "uunmute",
+            "vunmute",
+            "wunmute",
+            "xunmute",
+            "yunmute",
+            "zunmute",
+        )
+    ):
         await asyncio.sleep(0.5)
     else:
         reply = await event.get_reply_message()
@@ -64,7 +124,7 @@ async def endmute(event):
             userid = event.pattern_match.group(1)
         elif reply is not None:
             userid = reply.sender_id
-        elif private is True:
+        elif private:
             userid = event.chat_id
         else:
             return await event.edit("Please reply to a user or add their userid into the command to unmute them.")

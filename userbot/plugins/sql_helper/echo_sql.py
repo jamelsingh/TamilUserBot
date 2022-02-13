@@ -41,7 +41,6 @@ def addecho(user_id, chat_id):
 
 
 def remove_echo(user_id, chat_id):
-    note = SESSION.query(ECHOSQL).get((str(user_id), str(chat_id)))
-    if note:
+    if note := SESSION.query(ECHOSQL).get((str(user_id), str(chat_id))):
         SESSION.delete(note)
         SESSION.commit()

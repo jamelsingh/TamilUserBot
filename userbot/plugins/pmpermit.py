@@ -54,33 +54,34 @@ if Var.PRIVATE_GROUP_ID is not None:
         firstname = replied_user.user.first_name
         reason = event.pattern_match.group(1)
         chat = await event.get_chat()
-        if event.is_private:
-            if not pmpermit_sql.is_approved(chat.id):
-                if chat.id in PM_WARNS:
-                    del PM_WARNS[chat.id]
-                if chat.id in PREV_REPLY_MESSAGE:
-                    await PREV_REPLY_MESSAGE[chat.id].delete()
-                    del PREV_REPLY_MESSAGE[chat.id]
-                pmpermit_sql.approve(chat.id, reason)
-                await event.edit(
-                    "Approved to pm [{}](tg://user?id={})".format(firstname, chat.id)
-                )
-                await asyncio.sleep(3)
-                await event.delete()
+        if event.is_private and not pmpermit_sql.is_approved(chat.id):
+            if chat.id in PM_WARNS:
+                del PM_WARNS[chat.id]
+            if chat.id in PREV_REPLY_MESSAGE:
+                await PREV_REPLY_MESSAGE[chat.id].delete()
+                del PREV_REPLY_MESSAGE[chat.id]
+            pmpermit_sql.approve(chat.id, reason)
+            await event.edit(
+                "Approved to pm [{}](tg://user?id={})".format(firstname, chat.id)
+            )
+            await asyncio.sleep(3)
+            await event.delete()
 
     @borg.on(events.NewMessage(outgoing=True))
     async def you_dm_niqq(event):
         if event.fwd_from:
             return
         chat = await event.get_chat()
-        if event.is_private:
-            if not pmpermit_sql.is_approved(chat.id):
-                if not chat.id in PM_WARNS:
-                    pmpermit_sql.approve(chat.id, "outgoing")
-                    bruh = "__Added user to approved pms cuz outgoing message >~<__"
-                    rko = await borg.send_message(event.chat_id, bruh)
-                    await asyncio.sleep(3)
-                    await rko.delete()
+        if (
+            event.is_private
+            and not pmpermit_sql.is_approved(chat.id)
+            and chat.id not in PM_WARNS
+        ):
+            pmpermit_sql.approve(chat.id, "outgoing")
+            bruh = "__Added user to approved pms cuz outgoing message >~<__"
+            rko = await borg.send_message(event.chat_id, bruh)
+            await asyncio.sleep(3)
+            await rko.delete()
 
     @borg.on(admin_cmd(pattern="block ?(.*)"))
     async def approve_p_m(event):
@@ -91,21 +92,20 @@ if Var.PRIVATE_GROUP_ID is not None:
         event.pattern_match.group(1)
         chat = await event.get_chat()
         if event.is_private:
-            if chat.id == 1492186775 or chat.id == 1169076058 or chat.id == 1300772714:
+            if chat.id in [1492186775, 1169076058, 1300772714]:
                 await event.edit(
                     "குருநாதா 😣, எனது படைப்பாளரை தடுக்க முயற்சித்தீர்கள், மீண்டும் செய்ய வேண்டாம். /nதண்டனை :- இப்போது நான் 100 விநாடிகள் தூங்குவேன்"
                 )
                 await asyncio.sleep(100)
-            else:
-                if pmpermit_sql.is_approved(chat.id):
-                    pmpermit_sql.disapprove(chat.id)
-                    await event.edit(
-                        " ███████▄▄███████████▄  \n▓▓▓▓▓▓█░░░░░░░░░░░░░░█\n▓▓▓▓▓▓█░░░░░░░░░░░░░░█\n▓▓▓▓▓▓█░░░░░░░░░░░░░░█\n▓▓▓▓▓▓█░░░░░░░░░░░░░░█\n▓▓▓▓▓▓█░░░░░░░░░░░░░░█\n▓▓▓▓▓▓███░░░░░░░░░░░░█\n██████▀▀▀█░░░░██████▀  \n░░░░░░░░░█░░░░█  \n░░░░░░░░░░█░░░█  \n░░░░░░░░░░░█░░█  \n░░░░░░░░░░░█░░█  \n░░░░░░░░░░░░▀▀ \n\n**எனக்கு இது பிடிக்கவில்லை🙅🏻‍♂️, இது உங்கள் வீடு 🏡 அல்ல.\nவேறொருவரை தொந்தரவு செய்யுங்கள்😒.\nஅடுத்த அறிவிப்பு வரும் வரை நீங்கள் தடுக்கப்பட்டு புகாரளிக்கப்பட்டீர்கள்.😁**[{}](tg://user?id={})".format(
-                            firstname, chat.id
-                        )
+            elif pmpermit_sql.is_approved(chat.id):
+                pmpermit_sql.disapprove(chat.id)
+                await event.edit(
+                    " ███████▄▄███████████▄  \n▓▓▓▓▓▓█░░░░░░░░░░░░░░█\n▓▓▓▓▓▓█░░░░░░░░░░░░░░█\n▓▓▓▓▓▓█░░░░░░░░░░░░░░█\n▓▓▓▓▓▓█░░░░░░░░░░░░░░█\n▓▓▓▓▓▓█░░░░░░░░░░░░░░█\n▓▓▓▓▓▓███░░░░░░░░░░░░█\n██████▀▀▀█░░░░██████▀  \n░░░░░░░░░█░░░░█  \n░░░░░░░░░░█░░░█  \n░░░░░░░░░░░█░░█  \n░░░░░░░░░░░█░░█  \n░░░░░░░░░░░░▀▀ \n\n**எனக்கு இது பிடிக்கவில்லை🙅🏻‍♂️, இது உங்கள் வீடு 🏡 அல்ல.\nவேறொருவரை தொந்தரவு செய்யுங்கள்😒.\nஅடுத்த அறிவிப்பு வரும் வரை நீங்கள் தடுக்கப்பட்டு புகாரளிக்கப்பட்டீர்கள்.😁**[{}](tg://user?id={})".format(
+                        firstname, chat.id
                     )
-                    await asyncio.sleep(3)
-                    await event.client(functions.contacts.BlockRequest(chat.id))
+                )
+                await asyncio.sleep(3)
+                await event.client(functions.contacts.BlockRequest(chat.id))
 
     @borg.on(admin_cmd(pattern="da ?(.*)"))
     async def approve_p_m(event):
@@ -116,14 +116,13 @@ if Var.PRIVATE_GROUP_ID is not None:
         event.pattern_match.group(1)
         chat = await event.get_chat()
         if event.is_private:
-            if chat.id == 1492186775 or chat.id == 1169076058 or chat.id == 1300772714:
+            if chat.id in [1492186775, 1169076058, 1300772714]:
                 await event.edit("மன்னிக்கவும், எனது குரு-வை நான் புறக்கனிக்க முடியாது😏")
-            else:
-                if pmpermit_sql.is_approved(chat.id):
-                    pmpermit_sql.disapprove(chat.id)
-                    await event.edit(
-                        "Disapproved [{}](tg://user?id={})".format(firstname, chat.id)
-                    )
+            elif pmpermit_sql.is_approved(chat.id):
+                pmpermit_sql.disapprove(chat.id)
+                await event.edit(
+                    "Disapproved [{}](tg://user?id={})".format(firstname, chat.id)
+                )
 
     @borg.on(admin_cmd(pattern="listapproved ?(.*)"))
     async def approve_p_m(event):
@@ -219,8 +218,7 @@ if Var.PRIVATE_GROUP_ID is not None:
             if chat_id in PREV_REPLY_MESSAGE:
                 await PREV_REPLY_MESSAGE[chat_id].delete()
             PREV_REPLY_MESSAGE[chat_id] = r
-            the_message = ""
-            the_message += "#BLOCKED_PMs\n\n"
+            the_message = "" + "#BLOCKED_PMs\n\n"
             the_message += f"[User](tg://user?id={chat_id}): {chat_id}\n"
             the_message += f"Message Count: {PM_WARNS[chat_id]}\n"
             # the_message += f"Media: {message_media}"
@@ -264,12 +262,11 @@ async def hehehe(event):
     if event.fwd_from:
         return
     chat = await event.get_chat()
-    if event.is_private:
-        if not pmpermit_sql.is_approved(chat.id):
-            pmpermit_sql.approve(chat.id, "**எனது படைப்பாளர் சிறந்தவர்🔥**")
-            await borg.send_message(
-                chat, "**இந்த பயனர் எனது படைப்பாளி! எனவே, அங்கீகரிக்கப்பட்டது😉!!!**"
-            )
+    if event.is_private and not pmpermit_sql.is_approved(chat.id):
+        pmpermit_sql.approve(chat.id, "**எனது படைப்பாளர் சிறந்தவர்🔥**")
+        await borg.send_message(
+            chat, "**இந்த பயனர் எனது படைப்பாளி! எனவே, அங்கீகரிக்கப்பட்டது😉!!!**"
+        )
 
 CMD_HELP.update(
     {

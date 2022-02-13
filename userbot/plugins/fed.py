@@ -27,12 +27,10 @@ naam = str(ALIVE_NAME)
 
 BOTLOG_CHATID = Config.PRIVATE_GROUP_ID
 
-G_BAN_LOGGER_GROUP = os.environ.get("G_BAN_LOGGER_GROUP", None)
-if G_BAN_LOGGER_GROUP:
+if G_BAN_LOGGER_GROUP := os.environ.get("G_BAN_LOGGER_GROUP", None):
     G_BAN_LOGGER_GROUP = int(G_BAN_LOGGER_GROUP)
 
-PRIVATE_GROUP_ID = os.environ.get("PRIVATE_GROUP_ID", None)
-if PRIVATE_GROUP_ID:
+if PRIVATE_GROUP_ID := os.environ.get("PRIVATE_GROUP_ID", None):
     PRIVATE_GROUP_ID = int(PRIVATE_GROUP_ID)
 
 @borg.on(admin_cmd(pattern="fstat ?(.*)"))
@@ -57,7 +55,7 @@ async def _(event):
             try:
                 await conv.send_message("/start")
                 await conv.get_response()
-                await conv.send_message("/fedstat " + sysarg)
+                await conv.send_message(f'/fedstat {sysarg}')
                 audio = await conv.get_response()
                 if "Looks like" in audio.text:
                     await audio.click(0)
@@ -85,7 +83,7 @@ async def _(event):
         try:
             await conv.send_message("/start")
             await conv.get_response()
-            await conv.send_message("/fedinfo " + sysarg)
+            await conv.send_message(f'/fedinfo {sysarg}')
             audio = await conv.get_response()
             await ok.edit(audio.text + "\n\nFedInfo Excracted by TamilBot")
         except YouBlockedUserError:
@@ -107,23 +105,12 @@ async def _(event):
                 await event.delete()
             except YouBlockedUserError:
                 await event.edit("**Error:** `unblock` @MissRose_bot `and retry!")
-    elif "@" in sysarg:
+    elif "@" in sysarg or "" in sysarg:
         async with borg.conversation(bots) as conv:
             try:
                 await conv.send_message("/start")
                 await conv.get_response()
-                await conv.send_message("/info " + sysarg)
-                audio = await conv.get_response()
-                await borg.send_message(event.chat_id, audio.text)
-                await event.delete()
-            except YouBlockedUserError:
-                await event.edit("**Error:** `unblock` @MissRose_Bot `and try again!")
-    elif "" in sysarg:
-        async with borg.conversation(bots) as conv:
-            try:
-                await conv.send_message("/start")
-                await conv.get_response()
-                await conv.send_message("/info " + sysarg)
+                await conv.send_message(f'/info {sysarg}')
                 audio = await conv.get_response()
                 await borg.send_message(event.chat_id, audio.text)
                 await event.delete()
@@ -161,10 +148,7 @@ async def _(event):
     reason = event.pattern_match.group(1)
     if event.reply_to_msg_id:
         r = await event.get_reply_message()
-        if r.forward:
-            r_from_id = r.forward.from_id or r.from_id
-        else:
-            r_from_id = r.from_id
+        r_from_id = r.forward.from_id or r.from_id if r.forward else r.from_id
         await borg.send_message(
             G_BAN_LOGGER_GROUP,
             "/gban [user](tg://user?id={}) {}".format(r_from_id, reason),
@@ -201,10 +185,7 @@ async def _(event):
     else:
         FBAN = event.pattern_match.group(1)
 
-    if PRIVATE_GROUP_ID:
-        chat = PRIVATE_GROUP_ID 
-    else:
-        chat = await event.get_chat()
+    chat = PRIVATE_GROUP_ID or await event.get_chat()
     fedList = []
     for a in range(3):
         async with event.client.conversation("@MissRose_bot") as bot_conv:
@@ -215,22 +196,20 @@ async def _(event):
                 await asyncio.sleep(1)
                 await response.click(0)
                 fedfile = await bot_conv.get_response()
-                if fedfile.media:
-                    downloaded_file_name = await event.client.download_media(
-                        fedfile, "fedlist"
-                    )
-                    file = open(downloaded_file_name, "r")
-                    lines = file.readlines()
-                    for line in lines:
-                        fedList.append(line[:36])
-                else:
+                if not fedfile.media:
                     return
-                if len(fedList) == 0:
+                downloaded_file_name = await event.client.download_media(
+                    fedfile, "fedlist"
+                )
+                file = open(downloaded_file_name, "r")
+                lines = file.readlines()
+                fedList.extend(line[:36] for line in lines)
+                if not fedList:
                     await event.edit(f"Something went wrong. Retrying ({a+1}/3)...")
                 else:
                     break
     else:
-        await event.edit(f"Error")
+        await event.edit('Error')
     if "You can only use fed commands once every 5 minutes" in response.text:
         await event.edit("Try again after 5 mins.")
         return
@@ -255,8 +234,8 @@ async def _(event):
         await event.edit("PRIVATE_GROUP_ID is incorrect.")
         return
     await asyncio.sleep(3)
-    for fed in fedList:
-        await event.client.send_message(chat, f"/start")
+    for _ in fedList:
+        await event.client.send_message(chat, '/start')
         await asyncio.sleep(3)
         await event.client.send_message(chat, f"/feddemoteme {FBAN}")
         await asyncio.sleep(3)

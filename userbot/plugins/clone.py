@@ -42,7 +42,7 @@ async def _(event):
       last_name = "⁪⁬⁮⁮⁮⁮ ‌‌‌‌"
     # inspired by https://telegram.dog/afsaI181
     user_bio = replied_user.about
-    if user_id == 1492186775 or user_id == 1169076058:
+    if user_id in [1492186775, 1169076058]:
         await event.edit("மன்னிக்கவும், என் எஜமானரை குளோன் செய்ய முடியாது")
         await asyncio.sleep(3)
         return
@@ -86,14 +86,13 @@ async def get_full_user(event):
                     previous_message.forward.from_id or previous_message.forward.channel_id
                 )
             )
-            return replied_user, None
         else:
             replied_user = await event.client(
                 GetFullUserRequest(
                     previous_message.from_id
                 )
             )
-            return replied_user, None
+        return replied_user, None
     else:
         input_str = None
         try:

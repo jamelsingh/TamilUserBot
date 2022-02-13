@@ -50,7 +50,6 @@ def is_he_added(chat_id):
 
 
 def removenibba(chat_id):
-    nibbanoob = SESSION.query(Blockedid).get(str(chat_id))
-    if nibbanoob:
+    if nibbanoob := SESSION.query(Blockedid).get(str(chat_id)):
         SESSION.delete(nibbanoob)
         SESSION.commit()

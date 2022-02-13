@@ -15,38 +15,38 @@ async def _(event):
     elif reply:
         to_add_users = str(reply.from_id)
     if to_add_users:
-        if not event.is_group and not event.is_channel:
-            return await event.edit("`.add` users to a chat, not to a Private Message")
-        else:
-            if not event.is_channel and event.is_group:
-                # https://lonamiwebs.github.io/Telethon/methods/messages/add_chat_user.html
-                for user_id in to_add_users.split(" "):
-                    try:
-                        userID = int(user_id)
-                    except:
-                        userID = user_id
-                    try:
-                        await event.client(
-                            functions.messages.AddChatUserRequest(
-                                chat_id=event.chat_id,
-                                user_id=userID,
-                                fwd_limit=1000000))
-                    except Exception as e:
-                        await event.reply(str(e))
-                        return
+        if event.is_group and not event.is_channel:
+            # https://lonamiwebs.github.io/Telethon/methods/messages/add_chat_user.html
+            for user_id in to_add_users.split(" "):
+                try:
+                    userID = int(user_id)
+                except:
+                    userID = user_id
+                try:
+                    await event.client(
+                        functions.messages.AddChatUserRequest(
+                            chat_id=event.chat_id,
+                            user_id=userID,
+                            fwd_limit=1000000))
+                except Exception as e:
+                    await event.reply(str(e))
+                    return
+            await event.edit("Added Successfully")
+        elif event.is_group or event.is_channel:
+            # https://lonamiwebs.github.io/Telethon/methods/channels/invite_to_channel.html
+            for user_id in to_add_users.split(" "):
+                try:
+                    userID = int(user_id)
+                except:
+                    userID = user_id
+                try:
+                    await event.client(
+                        functions.channels.InviteToChannelRequest(
+                            channel=event.chat_id, users=[userID]))
+                except Exception as e:
+                    await event.reply(str(e))
+                    return
                 await event.edit("Added Successfully")
-            else:
-                # https://lonamiwebs.github.io/Telethon/methods/channels/invite_to_channel.html
-                for user_id in to_add_users.split(" "):
-                    try:
-                        userID = int(user_id)
-                    except:
-                        userID = user_id
-                    try:
-                        await event.client(
-                            functions.channels.InviteToChannelRequest(
-                                channel=event.chat_id, users=[userID]))
-                    except Exception as e:
-                        await event.reply(str(e))
-                        return
-                    await event.edit("Added Successfully")
+
+        else:
+            return await event.edit("`.add` users to a chat, not to a Private Message")

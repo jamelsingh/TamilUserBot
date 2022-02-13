@@ -11,7 +11,7 @@ async def _(event):
     if event.fwd_from:
         return
     animation_interval = 1
-    animation_ttl = range(0, 14)
+    animation_ttl = range(14)
     await event.edit("brain")
     animation_chars = [
         "YOᑌᖇ ᗷᖇᗩIᑎ ➡️ 🧠\n\n🧠         <(^_^ <)🗑",
@@ -35,7 +35,7 @@ async def _(event):
         await event.edit(animation_chars[i % 14])
 
 
-@borg.on(admin_cmd(pattern=f"bombs$", outgoing=True))
+@borg.on(admin_cmd(pattern='bombs$', outgoing=True))
 async def _(event):
     if event.fwd_from:
         return
@@ -66,7 +66,7 @@ async def _(event):
     if event.fwd_from:
         return
     animation_interval = 3
-    animation_ttl = range(0, 18)
+    animation_ttl = range(18)
     await event.edit("Calling Pavel Durov (ceo of telegram)......")
     animation_chars = [
         "`Connecting To Telegram Headquarters...`",
@@ -98,7 +98,7 @@ async def _(event):
 @borg.on(admin_cmd(pattern="ding$"))
 async def _(event):
     animation_interval = 0.3
-    animation_ttl = range(0, 30)
+    animation_ttl = range(30)
     animation_chars = [
         "🔴⬛⬛⬜⬜\n⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜",
         "⬜⬜⬛⬜⬜\n⬜⬛⬜⬜⬜\n🔴⬜⬜⬜⬜",
@@ -120,12 +120,12 @@ async def _(event):
         await event.edit(animation_chars[i % 10])
 
 
-@borg.on(admin_cmd(pattern=f"hypno$", outgoing=True))
+@borg.on(admin_cmd(pattern='hypno$', outgoing=True))
 async def _(event):
     if event.fwd_from:
         return
     animation_interval = 0.3
-    animation_ttl = range(0, 15)
+    animation_ttl = range(15)
     await event.edit("hypo....")
     animation_chars = [
         "⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜\n⬜⬜⬜⬜⬜⬜⬜",
@@ -153,7 +153,7 @@ async def _(event):
     if event.fwd_from:
         return
     animation_interval = 1
-    animation_ttl = range(0, 24)
+    animation_ttl = range(24)
     # input_str = event.pattern_match.group(1)
     #  if input_str == "isro":
     await event.edit("Connecting..")
@@ -235,7 +235,7 @@ async def _(event):
         await asyncio.sleep(animation_interval)
         await event.edit(animation_chars[i % 35])
 
-@borg.on(admin_cmd(pattern=f"charging$"))
+@borg.on(admin_cmd(pattern='charging$'))
 async def timer_blankx(e):
     txt = (
         e.text[10:]
@@ -243,9 +243,9 @@ async def timer_blankx(e):
     )
     j = 10
     k = j
-    for j in range(j):
+    for _ in range(k):
         await e.edit(txt + str(k))
-        k = k + 10
+        k += 10
         await asyncio.sleep(1)
     await asyncio.sleep(1)
     await e.edit(

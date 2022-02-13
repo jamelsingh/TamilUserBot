@@ -61,7 +61,6 @@ def add_snip(keyword, reply, snip_type, media_id, media_access_hash, media_file_
 
 
 def remove_snip(keyword):
-    note = SESSION.query(Snips).filter(Snips.snip == keyword)
-    if note:
+    if note := SESSION.query(Snips).filter(Snips.snip == keyword):
         note.delete()
         SESSION.commit()

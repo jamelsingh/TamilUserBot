@@ -155,11 +155,11 @@ async def wspr(event):
 
 @borg.on(admin_cmd(pattern="checkspam ?(.*)"))
 async def _(event):
-    bot = "@SpamBot"
     if event.fwd_from:
         return
     sysarg = event.pattern_match.group(1)
     if sysarg == "":
+        bot = "@SpamBot"
         async with borg.conversation(bot) as conv:
             try:
                 await conv.send_message("/start")
@@ -218,13 +218,13 @@ async def tel(event):
 
 @borg.on(admin_cmd(pattern="font ?(.*)"))
 async def _(event):
-    bot = "@fontsgenbot"
     if event.fwd_from:
         return
     sysarg = event.pattern_match.group(1)
     if sysarg == "":
         await event.edit("Give me a text to sylize pero")
     else:
+        bot = "@fontsgenbot"
         async with borg.conversation(bot) as conv:
             try:
                 x = await edit_or_reply(event, "`Making the text stylish..`")

@@ -50,12 +50,8 @@ async def install(event):
 async def send(event):
     if event.fwd_from:
         return
-    reply_to_id = None
-    if event.reply_to_msg_id:
-        reply_to_id = event.reply_to_msg_id
-    thumb = None
-    if os.path.exists(thumb_image_path):
-        thumb = thumb_image_path
+    reply_to_id = event.reply_to_msg_id or None
+    thumb = thumb_image_path if os.path.exists(thumb_image_path) else None
     input_str = event.pattern_match["shortname"]
     the_plugin_file = "./userbot/plugins/{}.py".format(input_str)
     if os.path.exists(the_plugin_file):
